@@ -84,7 +84,6 @@ function M.load(theme)
 
 		vim.cmd.colorscheme(theme.colorscheme)
 		local defs = M.get_hl_defs()
-		M.set_hl_defs(ns, defs)
 
 		if orig.background ~= vim.go.background then
 			vim.go.background = orig.background
@@ -92,6 +91,7 @@ function M.load(theme)
 
 		vim.cmd([[hi clear]])
 		M.set_hl_defs(0, orig.defs)
+		M.set_hl_defs(ns, defs, orig.defs)
 
 		for k, v in pairs(orig.terminal) do
 			vim.g[k] = v
@@ -105,9 +105,11 @@ function M.load(theme)
 end
 
 ---@param defs table<string, table>
-function M.set_hl_defs(ns, defs)
+function M.set_hl_defs(ns, defs, main)
 	for group, hl in pairs(defs) do
-		vim.api.nvim_set_hl(ns, group, hl)
+		if not (main and vim.tbl_isempty(hl) and main[group]) then
+			vim.api.nvim_set_hl(ns, group, hl)
+		end
 	end
 end
 
@@ -160,7 +162,6 @@ function M.setup(opts)
 				M.update({ buf = buf, force = true, sync = true })
 			end)
 		end,
-		nested = true,
 	})
 
 	vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
@@ -168,7 +169,6 @@ function M.setup(opts)
 		callback = function(event)
 			M.update({ buf = event.buf, sync = true })
 		end,
-		nested = true,
 	})
 	M.update()
 end
