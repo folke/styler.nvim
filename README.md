@@ -2,6 +2,8 @@
 
 Simple Neovim plugin to set a different `colorscheme` per filetype.
 
+![image](https://user-images.githubusercontent.com/292349/201647881-c32e10c9-d00d-42f9-9e16-175c1fe90c71.png)
+
 ## ⚡️ Requirements
 
 - Neovim >= 0.8.0
