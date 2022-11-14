@@ -27,7 +27,7 @@ use({
 })
 ```
 
-## 🚀 Usage
+## 🚀 API
 
 To programmatically set the colorscheme for a certain window, you can use:
 
