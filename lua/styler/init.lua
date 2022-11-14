@@ -14,53 +14,101 @@ function M.set_theme(win, theme, opts)
 	win = win == 0 and vim.api.nvim_get_current_win() or win
 
 	vim.w[win].theme = theme
-	vim.api.nvim_win_set_hl_ns(win, M.load(theme, { sync = opts.sync }))
+	opts.sync = true
+	vim.api.nvim_win_set_hl_ns(win, M.load(theme))
+end
+
+function M.get_hl_defs()
+	local hi = vim.api.nvim_exec("hi", true)
+	hi = hi:gsub("\n%s*links to", " links to")
+	local lines = vim.split(hi, "\n")
+	---@type table<string,string>
+	local links = {}
+	---@type table<string,boolean>
+	local groups = {}
+	for _, line in ipairs(lines) do
+		local group = line:match("(%S+)%s+xxx")
+		if group then
+			groups[group] = true
+			local link = line:match("%S+.*links to (%S+)")
+			if link then
+				links[group] = link
+			end
+		end
+	end
+	---@type table<string, table>
+	local ret = {}
+	---@type table<string, table>
+	---@diagnostic disable-next-line: assign-type-mismatch
+	local defs = vim.api.nvim__get_hl_defs(0)
+	for group, hl in pairs(defs) do
+		if groups[group] then
+			if links[group] then
+				hl = { link = links[group] }
+			end
+			---@diagnostic disable-next-line: no-unknown
+			hl[vim.type_idx] = nil
+			ret[group] = hl
+		end
+	end
+	return ret
 end
 
 ---@param theme Theme
----@param opts? {sync?: boolean}
-function M.load(theme, opts)
-	opts = opts or {}
+function M.load(theme)
 	local ns_name = table.concat({ "win_theme", theme.colorscheme, theme.background or "" }, "_")
 	local create = not vim.api.nvim_get_namespaces()[ns_name]
 	local ns = vim.api.nvim_create_namespace(ns_name)
 
-	local function _load()
+	if create then
 		local orig = {
 			background = vim.go.background,
 			colorscheme = vim.g.colors_name,
+			defs = M.get_hl_defs(),
+			---@type table<string, string>
+			terminal = {},
 		}
+
+		for i = 0, 15 do
+			local key = "terminal_color_" .. i
+			orig.terminal[key] = vim.g[key]
+		end
+
+		-- load the colorscheme
+		vim.go.eventignore = "all"
 
 		-- set background
 		if theme.background and vim.go.background ~= theme.background then
 			vim.go.background = theme.background
 		end
 
-		-- load the colorscheme
-		vim.go.eventignore = "all"
 		vim.cmd.colorscheme(theme.colorscheme)
-		vim.go.eventignore = nil
-
-		---@type table<string, table>
-		---@diagnostic disable-next-line: assign-type-mismatch
-		local defs = vim.api.nvim__get_hl_defs(0)
-		for name, hl in pairs(defs) do
-			if not hl[vim.type_idx] then
-				vim.api.nvim_set_hl(ns, name, hl)
-			end
-		end
+		local defs = M.get_hl_defs()
+		M.set_hl_defs(ns, defs)
 
 		if orig.background ~= vim.go.background then
 			vim.go.background = orig.background
 		end
-		vim.cmd.colorscheme(orig.colorscheme)
-	end
 
-	if create then
-		(opts.sync and _load or vim.schedule_wrap(_load))()
+		vim.cmd([[hi clear]])
+		M.set_hl_defs(0, orig.defs)
+
+		for k, v in pairs(orig.terminal) do
+			vim.g[k] = v
+		end
+
+		vim.g.colors_name = orig.colorscheme
+		vim.go.eventignore = nil
 	end
 
 	return ns
+end
+
+---@param defs table<string, table>
+function M.set_hl_defs(ns, defs)
+	for group, hl in pairs(defs) do
+		vim.api.nvim_set_hl(ns, group, hl)
+	end
 end
 
 function M.clear(win)
