@@ -8,10 +8,10 @@ jobs:
     name: pandoc to vimdoc
     steps:
       - uses: actions/checkout@v2
-      - name: styler.nvim
+      - name: panvimdoc
         uses: kdheepak/panvimdoc@main
         with:
-          vimdoc: ${VIMDOC_PROJECT_NAME}
+          vimdoc: styler.nvim
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "docs: auto generate vimdocs"
