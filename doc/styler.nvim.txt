@@ -14,7 +14,7 @@ Table of Contents                              *styler.nvim-table-of-contents*
 Simple Neovim plugin to set a different `colorscheme` per filetype.
 
 <div class="figure">
-<img src="https://user-images.githubusercontent.com/292349/201787416-204ab55f-0fe9-4336-8f00-a47ad0ca7e4f.png" title="fig:"/>
+<img src="https://user-images.githubusercontent.com/292349/201969839-b6c2e18d-4313-4fed-b020-5c7ebbce667b.png" title="fig:"/>
 <p class="caption">image</p>
 </div>
 
