@@ -2,9 +2,12 @@ local M = {}
 
 ---@type table<string, Theme>
 M.themes = {}
+---@type ThemeHighlights?
+M.current = nil
 
 ---@alias Theme {colorscheme: string, background?: "light"|"dark"}
 ---@alias ThemeOptions {sync?:boolean}
+---@alias ThemeHighlights table<string, table>
 
 ---@param win window window id or 0 for the current window
 ---@param theme Theme
@@ -36,9 +39,9 @@ function M.get_hl_defs()
 			end
 		end
 	end
-	---@type table<string, table>
+	---@type ThemeHighlights
 	local ret = {}
-	---@type table<string, table>
+	---@type ThemeHighlights
 	---@diagnostic disable-next-line: assign-type-mismatch
 	local defs = vim.api.nvim__get_hl_defs(0)
 	for group, hl in pairs(defs) do
@@ -61,10 +64,12 @@ function M.load(theme)
 	local ns = vim.api.nvim_create_namespace(ns_name)
 
 	if create then
+		M.current = M.current or M.get_hl_defs()
+		-- d("loading", theme)
 		local orig = {
 			background = vim.go.background,
 			colorscheme = vim.g.colors_name,
-			defs = M.get_hl_defs(),
+			defs = M.current,
 			---@type table<string, string>
 			terminal = {},
 		}
@@ -104,7 +109,7 @@ function M.load(theme)
 	return ns
 end
 
----@param defs table<string, table>
+---@param defs ThemeHighlights
 function M.set_hl_defs(ns, defs, main)
 	for group, hl in pairs(defs) do
 		if not (main and vim.tbl_isempty(hl) and main[group]) then
@@ -149,6 +154,12 @@ function M.setup(opts)
 	M.themes = opts.themes
 	local group = vim.api.nvim_create_augroup("styler", { clear = true })
 
+	vim.api.nvim_create_autocmd("ColorScheme", {
+		group = group,
+		callback = function()
+			M.current = nil
+		end,
+	})
 	vim.api.nvim_create_autocmd("OptionSet", {
 		group = group,
 		pattern = "winhighlight",
