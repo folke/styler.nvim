@@ -80,7 +80,9 @@ function M:after()
 
 	-- schedule theme reload
 	vim.schedule(function()
-		vim.cmd("colorscheme " .. self.orig.colorscheme)
+		if self.orig.colorscheme then
+			vim.cmd("colorscheme " .. self.orig.colorscheme)
+		end
 	end)
 end
 

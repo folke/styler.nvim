@@ -2,6 +2,8 @@ local M = {}
 
 ---@type table<string, Theme>
 M.themes = {}
+---@type table<buffer, Theme>
+M.bufs = {}
 
 ---@alias Theme {colorscheme: string, background?: "light"|"dark"}
 ---@alias ThemeHighlights table<string, table>
@@ -36,7 +38,7 @@ function M.update(opts)
 		local buf = vim.api.nvim_win_get_buf(win)
 		if not (opts.buf and opts.buf ~= buf) then
 			local ft = vim.bo[buf].filetype
-			local theme = M.themes[ft]
+			local theme = M.bufs[buf] or M.themes[ft]
 			if theme then
 				M.set_theme(win, theme)
 			else
@@ -50,6 +52,16 @@ end
 function M.setup(opts)
 	M.themes = opts.themes
 	local group = vim.api.nvim_create_augroup("styler", { clear = true })
+
+	vim.api.nvim_create_user_command("Styler", function(event)
+		local theme = { colorscheme = event.args }
+		M.bufs[vim.api.nvim_get_current_buf()] = theme
+		M.set_theme(0, theme)
+	end, {
+		nargs = 1,
+		desc = "Set colorscheme for the current window",
+		complete = "color",
+	})
 
 	vim.api.nvim_create_autocmd("OptionSet", {
 		group = group,
