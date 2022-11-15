@@ -7,7 +7,7 @@ Simple Neovim plugin to set a different `colorscheme` per filetype.
 ## ⚡️ Requirements
 
 - Neovim >= 0.8.0
-- **Styler** only work with `colorschemes` that set highlights using `vim.api.nvim_set_hl`
+- **Styler** only works with `colorschemes` that set highlights using `vim.api.nvim_set_hl`
 
 ## 📦 Installation
 

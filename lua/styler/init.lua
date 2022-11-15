@@ -54,7 +54,9 @@ function M.setup(opts)
 	local group = vim.api.nvim_create_augroup("styler", { clear = true })
 
 	vim.api.nvim_create_user_command("Styler", function(event)
-		local theme = { colorscheme = event.args }
+		---@type string
+		local colorscheme = event.args
+		local theme = { colorscheme = colorscheme }
 		M.bufs[vim.api.nvim_get_current_buf()] = theme
 		M.set_theme(0, theme)
 	end, {
