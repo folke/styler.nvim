@@ -57,6 +57,20 @@ function M.get_hl_defs()
 	return ret
 end
 
+function M.get_current_defs()
+	if M.current then
+		local defs = M.get_hl_defs()
+		for k, v in pairs(defs) do
+			if not vim.tbl_isempty(v) then
+				M.current[k] = v
+			end
+		end
+	else
+		M.current = M.get_hl_defs()
+	end
+	return M.current
+end
+
 ---@param theme Theme
 function M.load(theme)
 	local ns_name = table.concat({ "win_theme", theme.colorscheme, theme.background or "" }, "_")
@@ -64,12 +78,10 @@ function M.load(theme)
 	local ns = vim.api.nvim_create_namespace(ns_name)
 
 	if create then
-		M.current = M.current or M.get_hl_defs()
-		-- d("loading", theme)
 		local orig = {
 			background = vim.go.background,
 			colorscheme = vim.g.colors_name,
-			defs = M.current,
+			defs = M.get_current_defs(),
 			---@type table<string, string>
 			terminal = {},
 		}
