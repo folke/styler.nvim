@@ -3,13 +3,13 @@
 ==============================================================================
 Table of Contents                              *styler.nvim-table-of-contents*
 
-1. 🎨 Styler                                       |styler.nvim-🎨-styler|
-  - ⚡️ Requirements                      |styler.nvim-⚡️-requirements|
-  - 📦 Installation                          |styler.nvim-📦-installation|
-  - 🚀 Usage                                        |styler.nvim-🚀-usage|
+1. Styler                                                 |styler.nvim-styler|
+  - Requirements                                    |styler.nvim-requirements|
+  - Installation                                    |styler.nvim-installation|
+  - Usage                                                  |styler.nvim-usage|
 
 ==============================================================================
-1. 🎨 Styler                                       *styler.nvim-🎨-styler*
+1. Styler                                                 *styler.nvim-styler*
 
 Simple Neovim plugin to set a different `colorscheme` per filetype.
 
@@ -18,14 +18,14 @@ Simple Neovim plugin to set a different `colorscheme` per filetype.
 <p class="caption">image</p>
 </div>
 
-⚡️ REQUIREMENTS                          *styler.nvim-⚡️-requirements*
+REQUIREMENTS                                        *styler.nvim-requirements*
 
 
 - Neovim >= 0.8.0
 - **Styler** only work with `colorschemes` that set highlights using `vim.api.nvim_set_hl`
 
 
-📦 INSTALLATION                              *styler.nvim-📦-installation*
+INSTALLATION                                        *styler.nvim-installation*
 
 Install the plugin with your preferred package manager:
 
@@ -45,7 +45,7 @@ Install the plugin with your preferred package manager:
 <
 
 
-🚀 USAGE                                            *styler.nvim-🚀-usage*
+USAGE                                                      *styler.nvim-usage*
 
 After setup, colorschemes will be automatically applied. To manually set a
 colorscheme for the current buffer, you can for example do:
