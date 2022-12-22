@@ -33,6 +33,9 @@ function M.load(theme)
 end
 
 function M:before()
+  pcall(function()
+    require("lazy.core.loader").colorscheme(self.theme.colorscheme)
+  end)
   -- don't trigger autocmds
   vim.go.eventignore = "all"
 
