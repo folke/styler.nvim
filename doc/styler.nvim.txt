@@ -1,4 +1,4 @@
-*styler.nvim.txt*         For NVIM v0.5.0        Last change: 2022 November 16
+*styler.nvim.txt*         For NVIM v0.5.0        Last change: 2022 December 22
 
 ==============================================================================
 Table of Contents                              *styler.nvim-table-of-contents*
