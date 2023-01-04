@@ -1,4 +1,4 @@
-*styler.nvim.txt*         For NVIM v0.5.0        Last change: 2022 December 22
+*styler.nvim.txt*       For Neovim >= 0.8.0       Last change: 2023 January 04
 
 ==============================================================================
 Table of Contents                              *styler.nvim-table-of-contents*
@@ -29,7 +29,7 @@ INSTALLATION                                        *styler.nvim-installation*
 
 Install the plugin with your preferred package manager:
 
->
+>lua
     -- Packer
     use({
       "folke/styler.nvim",
@@ -50,14 +50,14 @@ USAGE                                                      *styler.nvim-usage*
 After setup, colorschemes will be automatically applied. To manually set a
 colorscheme for the current buffer, you can for example do:
 
->
+>vim
     :Styler tokyonight-storm
 <
 
 
 To programmatically set the colorscheme for a certain window, you can use:
 
->
+>lua
     require("styler").set_theme(0, {
       colorscheme = "elflord",
       background = "dark"
