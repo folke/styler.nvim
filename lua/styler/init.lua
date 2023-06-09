@@ -80,7 +80,7 @@ function M.setup(opts)
     end,
   })
 
-  vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
+  vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" ,"WinEnter"}, {
     group = group,
     callback = function(event)
       M.update({ buf = event.buf })
