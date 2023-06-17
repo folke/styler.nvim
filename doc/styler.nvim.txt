@@ -1,4 +1,4 @@
-*styler.nvim.txt*        For Neovim >= 0.8.0        Last change: 2023 March 19
+*styler.nvim.txt*         For Neovim >= 0.8.0        Last change: 2023 June 17
 
 ==============================================================================
 Table of Contents                              *styler.nvim-table-of-contents*
@@ -15,7 +15,6 @@ Simple Neovim plugin to set a different `colorscheme` per filetype.
 
 
 REQUIREMENTS                                 *styler.nvim-styler-requirements*
-
 
 - Neovim >= 0.8.0
 - **Styler** only works with `colorschemes` that set highlights using `vim.api.nvim_set_hl`
