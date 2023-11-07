@@ -79,7 +79,7 @@ function M:after()
   end
 
   -- enable autocmds
-  vim.go.eventignore = nil
+  vim.go.eventignore = ""
 
   -- schedule theme reload
   vim.schedule(function()
