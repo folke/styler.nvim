@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/folke/styler.nvim/compare/v1.0.0...v1.0.1) (2024-01-19)
+
+
+### Bug Fixes
+
+* fixed buggy split behaviour ([#8](https://github.com/folke/styler.nvim/issues/8)) ([e9ef6f6](https://github.com/folke/styler.nvim/commit/e9ef6f6966eebe5b97b8dedceb53d7ca00df65f6))
+* unset eventignore with empty string instead of nil ([#11](https://github.com/folke/styler.nvim/issues/11)) ([e8c7360](https://github.com/folke/styler.nvim/commit/e8c736019e1ad3073638a43f50092716427b270a))
+
 ## 1.0.0 (2023-01-04)
 
 
