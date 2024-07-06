@@ -12,4 +12,3 @@ jobs:
     with:
       plugin: styler.nvim
       repo: folke/styler.nvim
-      tests: false
