@@ -13,6 +13,10 @@ M.bufs = {}
 function M.set_theme(win, theme)
   win = win == 0 and vim.api.nvim_get_current_win() or win
 
+  if vim.w[win].theme and vim.w[win].theme.colorscheme == theme.colorscheme then
+    return
+  end
+
   vim.w[win].theme = theme
   local ns = require("styler.theme").load(theme)
   vim.api.nvim_win_set_hl_ns(win, ns)
