@@ -5,7 +5,7 @@ M.themes = {}
 ---@type table<buffer, Theme>
 M.bufs = {}
 
----@alias Theme {colorscheme: string, background?: "light"|"dark"}
+---@alias Theme function|{colorscheme: string, background?: "light"|"dark"}
 ---@alias ThemeHighlights table<string, table>
 
 ---@param win window window id or 0 for the current window
@@ -42,7 +42,8 @@ function M.update(opts)
     local buf = vim.api.nvim_win_get_buf(win)
     if not (opts.buf and opts.buf ~= buf) then
       local ft = vim.bo[buf].filetype
-      local theme = M.bufs[buf] or M.themes[ft]
+      local theme = M.bufs[buf]
+        or (type(M.themes[ft]) == "function" and M.themes[ft](vim.api.nvim_buf_get_name(buf)) or M.themes[ft])
       if theme then
         M.set_theme(win, theme)
       else
