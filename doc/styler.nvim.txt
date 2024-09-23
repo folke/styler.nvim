@@ -34,6 +34,13 @@ Install the plugin with your preferred package manager:
           themes = {
             markdown = { colorscheme = "gruvbox" },
             help = { colorscheme = "catppuccin-mocha", background = "dark" },
+            python = function(buf_path) {
+              if buf_path:match("cool_project") then
+                  return { colorscheme = "tokyonight-storm" }
+              else
+                  return { colorscheme = "gruvbox", bakcground = "dark" }
+              end
+            }
           },
         })
       end,
