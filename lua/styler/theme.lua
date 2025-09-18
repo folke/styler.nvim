@@ -40,7 +40,11 @@ function M:before()
   end)
   self.last_eventignore = vim.go.eventignore
   -- don't trigger autocmds
-  vim.go.eventignore = "all,-ColorSchemePre,-ColorScheme"
+  if vim.fn.has('nvim-0.12') == 1 then
+    vim.go.eventignore = "all,-ColorSchemePre,-ColorScheme"
+  else
+    vim.go.eventignore = "all"
+  end
 
   -- set to nil, so most themes won't run `hi clear` to prevent flickering
   vim.g.colors_name = nil
