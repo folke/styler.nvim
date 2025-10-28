@@ -1,4 +1,4 @@
-*styler.nvim.txt*            For Neovim           Last change: 2025 October 08
+*styler.nvim.txt*                                             styler.nvim docs
 
 ==============================================================================
 Table of Contents                              *styler.nvim-table-of-contents*
